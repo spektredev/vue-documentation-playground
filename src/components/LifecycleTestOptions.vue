@@ -1,20 +1,27 @@
 <template>
-  <div>hello</div>
+  <div>hello, you're testing Options API</div>
   <p>Счётчик: {{ counter }}</p>
   <button @click="increment">Увеличить</button>
-  <PropsTestOptions :message="parentMessage" />
+  <PropsTestOptions :message="parentMessage" @increment="increment" />
+  <PropsTestComposition :message="parentMessage" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import PropsTestOptions from './PropsTestOptions.vue'
+import PropsTestOptions from './level1/PropsTestOptions.vue'
+import PropsTestComposition from './level1/PropsTestComposition.vue'
 
 export default defineComponent({
-  components: { PropsTestOptions },
+  components: { PropsTestOptions, PropsTestComposition },
   data() {
     return {
       counter: 0,
       parentMessage: 'Hello from parent',
+    }
+  },
+  provide() {
+    return {
+      globalParam: `I'm global!`,
     }
   },
   beforeCreate() {
@@ -32,7 +39,7 @@ export default defineComponent({
   mounted() {
     console.log('mounted: Компонент добавлен в DOM')
     const div = document.querySelector('div')
-    console.log('DOM элемент:', div?.textContent)
+    console.log('DOM элемент:', div)
   },
   beforeUpdate() {
     console.log('beforeUpdate: DOM будет обновлён, counter:', this.counter)

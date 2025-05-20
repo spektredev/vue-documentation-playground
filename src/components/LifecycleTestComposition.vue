@@ -1,5 +1,5 @@
 <template>
-  <div>hello</div>
+  <div>hello, you're testing Composition API</div>
   <p>Счётчик: {{ counter }}</p>
   <button @click="counter++">Увеличить</button>
   <PropsTestOptions :message="parentMessage" />
@@ -15,14 +15,18 @@ import {
   onUpdated,
   onBeforeUnmount,
   onUnmounted,
+  provide,
 } from 'vue'
-import PropsTestOptions from './PropsTestOptions.vue'
-import PropsTestComposition from './PropsTestComposition.vue'
+import PropsTestOptions from './level1/PropsTestOptions.vue'
+import PropsTestComposition from './level1/PropsTestComposition.vue'
 
 const counter = ref(0)
 const parentMessage = ref('Hello from parent')
 
 console.log('Скрипт выполняется на этапе компиляции <script setup>')
+
+provide('globalMsg', `Hello composition, I'm native global!`)
+provide('globalParam', `Hello, options! I'm global from composition!`)
 
 onBeforeMount(() => {
   console.log('beforeMount: Компонент скоро будет добавлен в DOM')
