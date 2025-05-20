@@ -6,7 +6,8 @@
   <div>
     <button @click="handleClick">Нажми</button>
     <div>
-      <button @click="addValue">+</button> <span>Кликнуто: {{ count }} раз</span>
+      <button :class="'editable'" @click="addValue">+</button>
+      <span>Кликнуто: {{ count }} раз</span>
       <div>{{ doubleCount }}</div>
     </div>
   </div>
@@ -21,7 +22,7 @@
 <script setup lang="ts">
 import { useFetch } from '@/composables/useFetch'
 import SimpleCard from '../card/SimpleCard.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 
 const { data: cards } = useFetch()
 const count = ref(0)
@@ -40,6 +41,16 @@ const emit = defineEmits<{
 }>()
 
 const fourthInputValue = defineModel<string>('fourthInputValue')
+
+const changeText = async () => {
+  await nextTick()
+  const el = document.querySelector('.editable') as HTMLButtonElement | null
+  if (el) {
+    el.textContent = 'Add'
+    console.log('Add button size: ' + el.getBoundingClientRect().width + 'px')
+  }
+}
+changeText()
 
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement | null

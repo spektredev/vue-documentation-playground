@@ -4,6 +4,30 @@
   <button @click="counter++">Увеличить</button>
   <PropsTestOptions :message="parentMessage" />
   <PropsTestComposition :message="parentMessage" />
+  <DefaultSlot>
+    <p>Parent slot content!</p>
+  </DefaultSlot>
+  <NamedSlots>
+    <template #header>
+      <div>Parent Custom Header</div>
+    </template>
+    <template #content>
+      <div>Parent Custom Content</div>
+    </template>
+    <template #footer>
+      <div>Parent Custom Footer</div>
+    </template>
+  </NamedSlots>
+  <ScopedSlots>
+    <template #default="{ item, index }">
+      <p>Child Custom: {{ item.name.toUpperCase() }} (Index: {{ index }})</p>
+    </template>
+  </ScopedSlots>
+  <DynamicSlots>
+    <template v-for="slotName in ['slot1', 'slot2']" :key="slotName" #[slotName]>
+      <p>Dynamic {{ slotName }}</p>
+    </template>
+  </DynamicSlots>
 </template>
 
 <script setup lang="ts">
@@ -19,7 +43,10 @@ import {
 } from 'vue'
 import PropsTestOptions from './level1/PropsTestOptions.vue'
 import PropsTestComposition from './level1/PropsTestComposition.vue'
-
+import DefaultSlot from './level1/DefaultSlot.vue'
+import NamedSlots from './level1/NamedSlots.vue'
+import ScopedSlots from './level1/ScopedSlots.vue'
+import DynamicSlots from './level1/DynamicSlots.vue'
 const counter = ref(0)
 const parentMessage = ref('Hello from parent')
 
