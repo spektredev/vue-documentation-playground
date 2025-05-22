@@ -1,26 +1,28 @@
+import { ref } from 'vue'
 import { CardData } from '@/mocks/mocks'
 import type { Card } from '@/types/card'
-import { ref } from 'vue'
 
 export function useFetch() {
   const data = ref<Card[] | null>(null)
-  const loading = ref(true)
+  const loading = ref<boolean>(true)
   const error = ref<string | null>(null)
 
-  new Promise<Card[]>((resolve) => {
-    setTimeout(() => {
-      resolve(CardData)
-    }, 100)
-  })
-    .then((response) => {
+  const fetchData = async (): Promise<void> => {
+    try {
+      const response = await new Promise<Card[]>((resolve) => {
+        setTimeout(() => {
+          resolve(CardData)
+        }, 100)
+      })
       data.value = response
-    })
-    .catch((e) => {
+    } catch (e) {
       error.value = e instanceof Error ? e.message : 'Unknown error'
-    })
-    .finally(() => {
+    } finally {
       loading.value = false
-    })
+    }
+  }
+
+  fetchData()
 
   return { data, loading, error }
 }

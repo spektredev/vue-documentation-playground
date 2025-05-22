@@ -28,6 +28,17 @@
       <p>Dynamic {{ slotName }}</p>
     </template>
   </DynamicSlots>
+  <Suspense>
+    <template #default>
+      <AsyncChild />
+    </template>
+    <template #fallback>
+      <div>Loading...</div>
+    </template>
+  </Suspense>
+  <p>ShallowRef (obj.a.b): {{ obj.a.b }}</p>
+  <button @click="changeShallow">ChangeShallow</button>
+  <p>Then click any render trigger, like the counter button</p>
 </template>
 
 <script setup lang="ts">
@@ -40,6 +51,8 @@ import {
   onBeforeUnmount,
   onUnmounted,
   provide,
+  defineAsyncComponent,
+  shallowRef,
 } from 'vue'
 import PropsTestOptions from './level1/PropsTestOptions.vue'
 import PropsTestComposition from './level1/PropsTestComposition.vue'
@@ -48,8 +61,12 @@ import NamedSlots from './level1/NamedSlots.vue'
 import ScopedSlots from './level1/ScopedSlots.vue'
 import DynamicSlots from './level1/DynamicSlots.vue'
 const counter = ref(0)
+const obj = shallowRef({ a: { b: 1 } })
+const changeShallow = () => {
+  obj.value.a.b += 1
+}
 const parentMessage = ref('Hello from parent')
-
+const AsyncChild = defineAsyncComponent(() => import('./level1/SuspenceAsync.vue'))
 console.log('Скрипт выполняется на этапе компиляции <script setup>')
 
 provide('globalMsg', `Hello composition, I'm native global!`)

@@ -4,7 +4,8 @@
   <p>Значение 2input: {{ secondInputValue }}</p>
   <p>Значение 3input: {{ thirdInputValue }}</p>
   <p>Значение 4input: {{ fourthInputValue }}</p>
-  <p>Сообщение от button: {{ buttonMessage }}</p>
+  <input type="text" v-model="deepObj.a.b" ref="input" />
+  <p>Сообщение от child button: {{ buttonMessage }}</p>
   <p>{{ watcherLog }}</p>
   <div>
     <SimpleList
@@ -16,11 +17,15 @@
       @buttonClicked="onButtonClick"
     />
   </div>
+  <CounterComponent />
+  <TabsKeepAlive />
 </template>
 
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue'
+import { onMounted, ref, useTemplateRef, watch, watchEffect } from 'vue'
 import SimpleList from './list/SimpleList.vue'
+import CounterComponent from './store/CounterComponent.vue'
+import TabsKeepAlive from './tabs/TabsKeepAlive.vue'
 
 const inputValue = ref('')
 const secondInputValue = ref('')
@@ -29,6 +34,15 @@ const fourthInputValue = ref('')
 const buttonMessage = ref('default')
 const watcherLog = ref('startValue')
 const actualWidth = ref(0)
+const deepObj = ref({ a: { b: 1 } })
+const inputRef = useTemplateRef('input')
+watch(
+  deepObj,
+  () => {
+    console.log('deepObj has changed')
+  },
+  { deep: true },
+)
 
 watch(buttonMessage, (newValue, oldValue) => {
   watcherLog.value = `buttonMessage изменился с ${oldValue} на ${newValue}`
@@ -80,6 +94,9 @@ const onButtonClick = (message: string) => {
 const changeThirdValue = (val: string) => {
   thirdInputValue.value = val
 }
+onMounted(() => {
+  inputRef.value?.focus()
+})
 </script>
 
 <style scoped></style>

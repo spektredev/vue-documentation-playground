@@ -8,7 +8,7 @@
     <div>
       <button :class="'editable'" @click="addValue">+</button>
       <span>Кликнуто: {{ count }} раз</span>
-      <div>{{ doubleCount }}</div>
+      <div>Computed x2: {{ doubleCount }}</div>
     </div>
   </div>
   <div v-if="cards">
