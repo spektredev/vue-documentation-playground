@@ -4,9 +4,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   inject: ['globalParam'],
   methods: {
     sendIncrement() {
@@ -14,7 +12,7 @@ export default defineComponent({
     },
     getRouter() {
       console.log('options-router: ', this.$router)
-      console.log('options-router: ', this.$route.href)
+      console.log('options-router: ', this.$route.path)
     },
     getInfo() {
       console.log('options-component-data: ', this.$data)
@@ -28,5 +26,5 @@ export default defineComponent({
     this.getRouter()
     this.getInfo()
   },
-})
+}
 </script>

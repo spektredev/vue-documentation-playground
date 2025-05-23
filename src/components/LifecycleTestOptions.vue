@@ -7,11 +7,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import PropsTestOptions from './level1/PropsTestOptions.vue'
 import PropsTestComposition from './level1/PropsTestComposition.vue'
 
-export default defineComponent({
+export default {
   components: { PropsTestOptions, PropsTestComposition },
   data() {
     return {
@@ -21,7 +20,7 @@ export default defineComponent({
   },
   provide() {
     return {
-      globalParam: `I'm global!`,
+      globalParam: `I'm global from options!`,
     }
   },
   beforeCreate() {
@@ -58,5 +57,5 @@ export default defineComponent({
       this.counter++
     },
   },
-})
+}
 </script>
